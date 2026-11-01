@@ -696,7 +696,9 @@ def evalf_mul(v: 'Mul', prec: int, options: OPT_DICT) -> TMP_RES:
         pair = pure_complex(arg)
 
         if pair and all(c.is_Rational for c in pair):
-            a, b = (Fraction(int(c.p), int(c.q)) for c in pair)
+            terms = [c.as_numer_denom() for c in pair]
+            a = Fraction(int(terms[0][0]), int(terms[0][1]))
+            b = Fraction(int(terms[1][0]), int(terms[1][1]))
             exact_re, exact_im = (
                 exact_re*a - exact_im*b,
                 exact_re*b + exact_im*a,
